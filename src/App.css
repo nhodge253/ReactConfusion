@@ -31,3 +31,12 @@ address{
 .navbar-dark {
     background-color: #512DA8;
 }
+
+img.media-object {
+    height: 135px;
+    width: 135px;
+}
+
+img.card-img {
+    height: 379px;
+}

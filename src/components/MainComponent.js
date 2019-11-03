@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import Home from './HomeComponent';
+import Home from './HomeComponent.js';
+import About from './AboutComponent.js';
 import Menu from './MenuComponent.js';
 import Contact from './ContactComponent.js';
 import DishDetail from './DishdetailComponent';
@@ -43,12 +44,15 @@ class Main extends Component {
           />
       )
     }
+
+ 
   
     return (
       <div>
         <Header />
           <Switch>
               <Route path='/home' component={HomePage} />
+              <Route path="/aboutus" component={() => <About leaders={this.state.leaders} />}/>
               <Route exact path='/menu' render={() => <Menu dishes={this.state.dishes} />} />
               <Route path="/menu/:dishId" component={DishWithId} />
               <Route exact path='/contactus' component={Contact} />
