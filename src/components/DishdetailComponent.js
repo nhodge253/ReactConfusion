@@ -8,6 +8,8 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+
 
 const DishDetail = (props) => {
     if (props.isLoading) {
@@ -56,13 +58,18 @@ const DishDetail = (props) => {
 
 function RenderDish({ dish }) {
     return <div className="col-sm-12 col-md-5 m-1">
-        <Card>
-            <CardImg top src={baseUrl + dish.image} alt={dish.name} />
-            <CardBody>
-                <CardTitle>{dish.name}</CardTitle>
-                <CardText>{dish.description}</CardText>
-            </CardBody>
-        </Card>
+        <FadeTransform in
+            transformProps={{
+                exitTransform: 'scale(0.5) translateY(-50%)'
+            }}>
+            <Card>
+                <CardImg top src={baseUrl + dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
+                </CardBody>
+            </Card>
+        </FadeTransform>
     </div>
 }
 
@@ -70,14 +77,18 @@ function RenderComments({ comments, postComment, dishId }) {
     return (comments) ? <div className="col-sm-12 col-md-5 m-1" id="commentslist">
         <h4 className="offset-md-1">Comments</h4>
         <ul>
-            {comments.map((comment) => {
-                return (
-                    <li key={comment.id}><i>"{comment.comment}"</i><br />{comment.author},
+            <Stagger in>
+                {comments.map((comment) => {
+                    return (
+                        <Fade in>
+                            <li key={comment.id}><i>"{comment.comment}"</i><br />{comment.author},
                         {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format
-                            (new Date(Date.parse(comment.date)))}</li>/*this part after comment.author and in front of 
+                                    (new Date(Date.parse(comment.date)))}</li>
+                        </Fade>/*new Intl.DateTimeFormat snippet after comment.author and in front of 
                         comment.date shortens the date to readable format*/
-                );
-            })}
+                    );
+                })}
+            </Stagger>
         </ul>
         <CommentForm dishId={dishId} postComment={postComment} />
     </div> : <div></div>;
